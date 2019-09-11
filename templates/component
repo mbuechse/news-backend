@@ -1,0 +1,31 @@
+{{$o := ._current -}}
+COMPONENT       {{$o.id}}
+{{with $o.friendlyId -}}
+#Friendly-Id:   {{.}}
+{{else -}}
+#Friendly-Id:   (falls nicht gesetzt, wird sie aus den ersten Worten generiert)
+{{end -}}
+{{- with $o.date -}}
+Date:           {{template "date" .}}
+{{else -}}
+Date:           #(optional, Format: 2018-11-18 13:06:35 +0100)
+{{end -}}
+{{- with $o.name -}}
+Title:          {{.}}
+{{else -}}
+Title:          #(optional)
+{{end -}}
+{{with index $o "$tags" -}}
+Tags:           {{range .}}{{friendly $ .}}, {{end}}{{if $o._creating}} #(weitere Tags){{end}}
+{{else -}}
+Tags:           #(hier z.B. Agenturen angeben)
+{{end -}}
+{{with $o.sourceUrls -}}
+Source-Urls:    {{joinStrings ",\n                " .}}
+{{else -}}
+Source-Urls:    #(hier ggf. Links zu Quellen, getrennt durch Komma)
+{{end -}}
+{{/*Source-Urls:    {{with $o.sourceUrls}}{{joinStrings ",\n                " .}}{{end}}*/}}
+{{with $o.content}}{{.}}{{else -}}
+#(hier kommt der Text des Bausteins hin, abgeschlossen durch zwei Leerzeilen)
+{{- end -}}

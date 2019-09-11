@@ -1,0 +1,29 @@
+{{$o := ._current -}}
+STATISTIC       {{$o.id}}
+{{with $o.friendlyId -}}
+#Friendly-Id:   {{.}}
+{{else -}}
+#Friendly-Id:   (falls nicht gesetzt, wird sie aus dem Titel generiert)
+{{end -}}
+Date:           {{with $o.date}}{{template "date" .}}{{end}}
+Paraph:         {{with $o.paraph}}{{.}}{{end}}
+{{with $o.visibility -}}
+Visibility:     {{.}}
+{{else -}}
+#Visibility:    guest
+{{end -}}
+Tags:           {{range (index $o "$tags")}}{{friendly $ .}}, {{end}} #(weitere Tags)
+{{if $o._creating -}}
+Snippet:        #(HTML-Code von Statista hier einfügen ODER die auskommentierten Felder ausfüllen)
+#Kind:          (ENTWEDER statista/infografik ODER statista/statistik)
+#Title:         (Titel)
+#Source-Url:    (URL zur Quelle)
+#Image-Url:     (URL zum Bild)
+{{else -}}
+Kind:           {{with $o.kind}}{{.}}{{else}}#(ENTWEDER statista/infografik ODER statista/statistik){{end}}
+Title:          {{with $o.name}}{{.}}{{else}}#(Titel){{end}}
+Source-Url:     {{with $o.sourceUrl}}{{.}}{{else}}#(URL zur Quelle){{end}}
+Image-Url:      {{with $o.imageUrl}}{{.}}{{else}}#(URL zum Bild){{end}}
+{{end -}}
+Origin:         {{with $o.origin}}{{.}}{{else}}#(Urheber, falls bekannt){{end}}
+Origin-Url:     {{with $o.originUrl}}{{.}}{{else}}#(hier Link zur Originalquelle, falls bekannt){{end}}

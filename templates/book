@@ -1,0 +1,26 @@
+{{$o := ._current -}}
+BOOK            {{$o.id}}
+{{with $o.friendlyId -}}
+#Friendly-Id:   {{.}}
+{{else -}}
+#Friendly-Id:   (falls nicht gesetzt, wird sie aus dem Titel generiert)
+{{end -}}
+Date:           {{with $o.date}}{{template "date" .}}{{end}}
+Paraph:         {{with $o.paraph}}{{.}}{{end}}
+{{with $o.visibility -}}
+Visibility:     {{.}}
+{{else -}}
+#Visibility:    guest
+{{end -}}
+Tags:           {{range (index $o "$tags")}}{{friendly $ .}}, {{end}}{{if $o._creating}} #(weitere Tags){{end}}
+Authors:        {{with $o.authors}}{{.}}{{else}}#(Autor*innen){{end}}
+Title:          {{with $o.name}}{{.}}{{else}}#(Titel){{end}}
+Publisher:      {{with $o.publisher}}{{.}}{{else}}#(Verlag){{end}}
+{{if $o._creating -}}
+Snippet:        #(HTML-Code "Bildlink" von Amazon hier einfügen ODER die auskommentierten Felder ausfüllen)
+#Image-Url:     (URL zum Bild)
+#Purchase-Url:  (Affiliate Link)
+{{else -}}
+Image-Url:      {{with $o.imageUrl}}{{.}}{{else}}#(URL zum Bild){{end}}
+Purchase-Url:   {{with $o.buyUrl}}{{.}}{{else}}#(Affiliate Link){{end}}
+{{end -}}

@@ -1,0 +1,30 @@
+{{$o := ._current -}}
+STATEMENT       {{$o.id}}
+{{with $o.friendlyId -}}
+#Friendly-Id:   {{.}}
+{{else -}}
+#Friendly-Id:   (falls nicht gesetzt, wird sie aus den ersten Worten generiert)
+{{end -}}
+Date:           {{with $o.date}}{{template "date" .}}{{end}}
+Paraph:         {{with $o.paraph}}{{.}}{{end}}
+{{with $o.visibility -}}
+Visibility:     {{.}}
+{{else -}}
+#Visibility:    guest
+{{end -}}
+Tags:           {{range (index $o "$tags")}}{{friendly $ .}}, {{end}}{{if $o._creating}} #(weitere Tags){{end}}
+Speaker:        {{with $o.speaker}}{{.}}{{else}}#(Sprecher*in){{end}}
+Position:       {{with $o.position}}{{.}}{{else}}#(Position){{end}}
+Image-Url:      {{with $o.imageUrl}}{{.}}{{else}}#(URL zum Bild){{end}}
+Image-Credits:  {{with $o.imageCredits}}{{.}}{{else}}#(Bildnachweis){{end}}
+Image-Source:   {{with $o.imageSource}}{{.}}{{else}}#(URL zum Bildnachweis){{end}}
+Sources:        {{with $o.sources}}{{.}}{{else}}#(Quellenangaben, FALLS Tags nicht ausreichend){{end}}
+{{with $o.sourceUrls -}}
+Source-Urls:    {{joinStrings ",\n                " .}}
+{{else -}}
+Source-Urls:    #(hier ggf. Links zu Quellen, getrennt durch Komma)
+{{end -}}
+{{/* */}}
+{{with $o.content}}{{.}}{{else -}}
+#(hier kommt der Text der Äußerung hin, abgeschlossen durch zwei Leerzeilen)
+{{- end -}}

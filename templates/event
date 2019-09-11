@@ -1,0 +1,26 @@
+{{$o := ._current -}}
+EVENT           {{$o.id}}
+{{with $o.friendlyId -}}
+#Friendly-Id:   {{.}}
+{{else -}}
+#Friendly-Id:   (falls nicht gesetzt, wird sie aus dem Titel generiert)
+{{end -}}
+Date:           {{with $o.date}}{{template "date" .}}{{end}}
+Paraph:         {{with $o.paraph}}{{.}}{{end}}
+{{with $o.visibility -}}
+Visibility:     {{.}}
+{{else -}}
+#Visibility:    guest
+{{end -}}
+Tags:           {{range (index $o "$tags")}}{{friendly $ .}}, {{end}}{{if $o._creating}} #(weitere Tags){{end}}
+Dateline:       {{with $o.dateline}}{{.}}{{else}}#(Ortsmarke){{end}}
+Title:          {{with $o.name}}{{.}}{{else}}#(Titel){{end}}
+Image-Url:      {{with $o.imageUrl}}{{.}}{{else}}#(URL zum Bild){{end}}
+Image-Credits:  {{with $o.imageCredits}}{{.}}{{else}}#(Bildnachweis){{end}}
+Image-Source:   {{with $o.imageSource}}{{.}}{{else}}#(URL zum Bildnachweis){{end}}
+Image-Text:     {{with $o.imageText}}{{.}}{{else}}#(Bildbeschreibung, z.B. für Sehbehinderte){{end}}
+{{with (index $o "$components") -}}
+Components:     {{range .}}{{friendly $ .}}, {{end}}
+{{else -}}
+#Components:    falls nicht gesetzt, werden alle Bausteine genutzt, die direkt vor dem Ereignis stehen
+{{end -}}
